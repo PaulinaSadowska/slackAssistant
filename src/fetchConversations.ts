@@ -1,14 +1,12 @@
 import token from "./token.js";
 import { WebClient, LogLevel } from "@slack/web-api";
-import { findChannelId } from "./findChannelId.js";
+import { verifyRequestRate } from "./requestRate.js";
 
 
 // Require the Node Slack SDK package (github.com/slackapi/node-slack-sdk)
 const client = new WebClient(token, {
     logLevel: LogLevel.WARN
 });
-
-let requestCount = 1
 
 interface Thread {
     message: Message,
@@ -22,10 +20,6 @@ interface Message {
     user: string,
     isBot: boolean,
     timestamp: string,
-}
-
-function delay(seconds: number) {
-    return new Promise( resolve => setTimeout(resolve, seconds * 1000) );
 }
 
 export async function fetchConversations({
@@ -43,63 +37,32 @@ export async function fetchConversations({
                 cursor: nextCursor,
             });
 
-            requestCount += 1;
-            if(requestCount % 100 == 0){
-                requestCount = 0
-                console.log('Sleeping for 60 seconds due to rate limit on Slack server side')
-                await delay(60)
-            }
-
-
             hasMore = result.has_more
             nextCursor = result.response_metadata.next_cursor
 
-            threads = threads.concat(result.messages.map((message) => {
-                const thread = {
-                    type: message.type,
-                    subtype: message.subtype,
-                    text: message.text,
-                    user: message.user,
-                    isBot: message.bot_id != undefined,
-                    timestamp: message.ts
-                }
-                return {
-                    message: thread,
-                    replies: []
-                }
-            }));
-        }
-
-        const threadsWithReplies = await mapToThreadWithReplies(channelId, threads)
-
-        console.log(`Threads count: ${threads.length}`);
-        console.log(`ThreadsWithReplies count: ${threadsWithReplies.length}`);
-        return threadsWithReplies;
-    }
-    catch (error) {
-        console.error(error);
-    }
-    return []
-}
-
-async function mapToThreadWithReplies(
-    channelId: string,
-    threads: Thread[]
-): Promise<Thread[]> {
-    try {
-        threads.map((thread) => {
-            const ts = thread.message.timestamp
-            if (ts != undefined) {
-                const replies = fetchReplies(channelId, ts)
+            var threadsWithReplies: Thread[] = await Promise.all(result.messages.map(async (message): Promise<Thread> => {
+                const replies = await fetchReplies(channelId, message.ts)
                 
                 return {
-                    message: thread.message,
+                    message: {
+                        type: message.type,
+                        subtype: message.subtype,
+                        text: message.text,
+                        user: message.user,
+                        isBot: message.bot_id != undefined,
+                        timestamp: message.ts
+                    },
                     replies: replies
                 };
-            }
-            return thread
-        })
+            }));
+            console.log("fetched messages with replies: " + threadsWithReplies.length)
+            await verifyRequestRate();
 
+            threads = threads.concat(threadsWithReplies)
+        }
+
+        console.log(`ThreadsWithReplies count: ${threads.length}`);
+        return threads;
     }
     catch (error) {
         console.error(error);
@@ -118,22 +81,16 @@ async function fetchReplies(
 
     try {
         while (hasMore) {
-            await client.conversations.replies({
+            const result = await client.conversations.replies({
                 channel: channelId,
                 ts: ts,
                 cursor: nextCursor,
-            }).then((result) => {
-                requestCount += 1;
-                if(requestCount % 100 == 0){
-                    requestCount = 0
-                    console.log('Sleeping for 60 seconds due to rate limit on Slack server side')
-                    delay(60)
-                }
+            })
 
-                hasMore = result.has_more
-                nextCursor = result.response_metadata.next_cursor
+            hasMore = result.has_more
+            nextCursor = result.response_metadata.next_cursor
 
-                messages = messages.concat(result.messages.map((message) => {
+            messages = messages.concat(result.messages.map((message) => {
                 return {
                     type: message.type,
                     text: message.text,
@@ -141,12 +98,8 @@ async function fetchReplies(
                     isBot: message.bot_id != undefined,
                     timestamp: message.ts
                 }
-            }));
-            });
-        }
-        if(messages.length > 1){
-            console.log(messages)
-        }
+            }))
+        };
         return messages;
     }
     catch (error) {
