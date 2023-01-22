@@ -8,12 +8,12 @@ const client = new WebClient(token, {
     logLevel: LogLevel.WARN
 });
 
-interface Thread {
+export interface Thread {
     message: Message,
     replies: Message[]
 }
 
-interface Message {
+export interface Message {
     type: string,
     subtype?: string,
     text: string,
