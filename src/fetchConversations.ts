@@ -15,7 +15,6 @@ export interface Thread {
 
 export interface Message {
     type: string,
-    subtype?: string,
     text: string,
     user: string,
     isBot: boolean,
@@ -24,11 +23,12 @@ export interface Message {
 
 interface FetchHistoryProps {
     channelId: string
+    withReplies: boolean,
     latest: Date
     oldest: Date
 }
 
-export async function fetchConversations({ channelId, latest, oldest }: FetchHistoryProps): Promise<Thread[]> {
+export async function fetchConversations({ channelId, withReplies, latest, oldest }: FetchHistoryProps): Promise<Thread[]> {
 
     let threads: Thread[] = []
     let hasMore: boolean | undefined = true
@@ -50,27 +50,39 @@ export async function fetchConversations({ channelId, latest, oldest }: FetchHis
             hasMore = result.has_more
             nextCursor = result.response_metadata.next_cursor
 
-            var threadsWithReplies: Thread[] = await Promise.all(result.messages.map(async (message): Promise<Thread> => {
-                const replies = await fetchReplies(channelId, message.ts)
-
+            const messages : Message[] = result.messages.map((message) => {
                 return {
-                    message: {
                         type: message.type,
-                        subtype: message.subtype,
                         text: message.text,
                         user: message.user,
                         isBot: message.bot_id != undefined,
                         timestamp: message.ts
-                    },
-                    replies: replies
-                };
-            }));
-            console.log("fetched messages with replies: " + threadsWithReplies.length)
-            if (hasMore) {
-                await verifyRequestRate();
-            }
+                    }
+            });
 
-            threads = threads.concat(threadsWithReplies)
+            if (withReplies) {
+                const threadsWithReplies: Thread[] = await Promise.all(messages.map(async (message): Promise<Thread> => {
+                    const replies = await fetchReplies(channelId, message.timestamp)
+
+                    return {
+                        message: message,
+                        replies: replies
+                    };
+                }));
+                console.log("fetched messages with replies: " + threadsWithReplies.length)
+                if (hasMore) {
+                    await verifyRequestRate();
+                }
+                threads = threads.concat(threadsWithReplies)
+            } else {
+                const threadsWithReplies: Thread[] = messages.map((message) => {
+                    return {
+                        message: message,
+                        replies: []
+                    }
+                });
+                threads = threads.concat(threadsWithReplies)
+            }
         }
 
         console.log(`ThreadsWithReplies count: ${threads.length}`);
