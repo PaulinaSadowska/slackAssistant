@@ -1,8 +1,8 @@
 import { findChannelId } from "../findChannelId";
 import { sendMessage } from "../sendMessage";
-import channel from "./channel";
+import config from "../config";
 
-findChannelId(channel.name).then((channelId) =>
+findChannelId(config.channel.name).then((channelId) =>
     sendMessage({
         channelId: channelId,
         messageText: "test",

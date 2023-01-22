@@ -1,10 +1,10 @@
 import { findChannelId } from "../findChannelId";
 import { sendMessage } from "../sendMessage";
-import channel from "./channel";
+import config from "../config";
 
 ["test", "Apka mi nie działa, pomocy!", "Poprosze CR"].forEach((text) => 
     sendMessage({
-        channelId: channel.id,
+        channelId: config.channel.id,
         messageText: text
     })
 )

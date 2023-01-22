@@ -20,12 +20,12 @@ export function countMessagesPerYear({ threads, excludeBots = false}: CountMessa
 
 function countMessages(threads: Thread[], excludeBots: boolean, mode: Mode) : Map<string, ThreadStats[]> {
 
-    let threadPerDay = new Map<string, ThreadStats[]>();
+    let threadStatsPerPeriod = new Map<string, ThreadStats[]>();
 
     threads.forEach((thread) => {
         if(!excludeBots || !thread.message.isBot){
             const date = toDateString(thread.message.timestamp, mode)
-            const prevStats = threadPerDay.get(date)
+            const prevStats = threadStatsPerPeriod.get(date)
             const numOfReplies = thread.replies.length - 1
             const timeToResolve = (numOfReplies > 0) ? timeDifference(thread.replies.at(-1), thread.replies[0]) : undefined
             const timeToRespond = (numOfReplies > 0) ? timeDifference(thread.replies[1], thread.replies[0]) : undefined
@@ -36,11 +36,11 @@ function countMessages(threads: Thread[], excludeBots: boolean, mode: Mode) : Ma
                 timeToRespondSeconds: timeToRespond
             }
             const newStats : ThreadStats[] = prevStats ? prevStats.concat(newStat) : [newStat]
-            threadPerDay.set(date, newStats)
+            threadStatsPerPeriod.set(date, newStats)
         }
     })
 
-    return threadPerDay
+    return threadStatsPerPeriod
 }
 
 function toDateString(timestamp: string, mode: Mode) : string {
@@ -62,7 +62,7 @@ enum Mode {
     Yearly
   }
 
-  interface ThreadStats {
+export interface ThreadStats {
     numOfReplies: number,
     // keywords
     timeToResolveSeconds?: number,

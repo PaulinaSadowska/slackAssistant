@@ -7,6 +7,7 @@ yarn-error.log*
 lerna-debug.log*
 .pnpm-debug.log*
 token.js
+config.ts
 src/samples/output
 
 # Diagnostic reports (https://nodejs.org/api/report.html)
