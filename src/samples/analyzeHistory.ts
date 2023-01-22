@@ -7,10 +7,10 @@ fs.readFile('output/history.json', (err, data) => {
     if (err) throw err;
     let threads: Thread[] = JSON.parse(data.toString());
 
-    const analysisPerDay = countMessagesPerDay({ threads: threads })
+    const analysisPerDay = countMessagesPerDay({ threads: threads, excludeBots: true })
     console.log(analysisPerDay);
 
-    const analysisPerMonth = countMessagesPerMonth({ threads: threads })
+    const analysisPerMonth = countMessagesPerMonth({ threads: threads, excludeBots: true })
     console.log(analysisPerMonth);
 
     const analysisPerYear = countMessagesPerYear({ threads: threads, excludeBots: true })
