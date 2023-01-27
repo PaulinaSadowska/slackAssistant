@@ -22,6 +22,17 @@ export function countMessagesPerYear({ threads, excludeBots = false, keywords = 
 function countMessages(threads: Thread[], excludeBots: boolean, keywords = [], mode: Mode): Map<string, ThreadStats[]> {
 
     let threadStatsPerPeriod = new Map<string, ThreadStats[]>();
+    const lowercaseKeywords = keywords.map((word) => word.toLowerCase())
+
+    function findKeywords(message: string): string[] {
+        let foundKeywords = []
+        lowercaseKeywords.forEach((word) => {
+            if (message.indexOf(word.toLowerCase()) > 0) {
+                foundKeywords = foundKeywords.concat(word.toLowerCase())
+            }
+        })
+        return lowercaseKeywords;
+    }
 
     threads.forEach((thread) => {
         if (!excludeBots || !thread.message.isBot) {
@@ -31,16 +42,9 @@ function countMessages(threads: Thread[], excludeBots: boolean, keywords = [], m
             const timeToResolve = (numOfReplies > 0) ? timeDifference(thread.replies.at(-1), thread.replies[0]) : undefined
             const timeToRespond = (numOfReplies > 0) ? timeDifference(thread.replies[1], thread.replies[0]) : undefined
 
-            let foundKeywords = []
-            keywords.forEach((word) => {
-                if (thread.message.text.indexOf(word) > 0) {
-                    foundKeywords = foundKeywords.concat(word)
-                }
-            })
-
             const newStat: ThreadStats = {
                 numOfReplies: numOfReplies,
-                keywords: foundKeywords,
+                keywords: findKeywords(thread.message.text),
                 timeToResolveSeconds: timeToResolve,
                 timeToRespondSeconds: timeToRespond
             }
