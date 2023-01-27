@@ -8,7 +8,7 @@ fetchConversations({
     latest: new Date(2023, 0, 23),
     oldest: new Date(2023, 0, 0)
 }).then((result) => {
-    writeJsonToFile(config.filenames.history, result)
+    writeJsonToFile("output/history.json", result)
 })
 
 
@@ -18,5 +18,5 @@ fetchConversations({
     latest: new Date(2023, 0, 23),
     oldest: new Date(2023, 0, 0)
 }).then((result) => {
-    writeJsonToFile(config.filenames.historyWithoutReplies, result)
+    writeJsonToFile("output/historyWithoutReplies.json", result)
 })
