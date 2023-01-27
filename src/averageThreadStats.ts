@@ -1,9 +1,9 @@
-import { ThreadStats } from "./countMessages";
+import { AggregatedThreadStats, AverageThreadStats, AverageThreadStatsPerPeriod, ThreadStats } from "./samples/data/ThreadStats";
 import { average, median } from "./utils/stats";
 
-export function averageThreadStats(threadStats: Map<string, ThreadStats[]>) : [string, AverageThreadStats][] {
+export function averageThreadStats(threadStats: Map<string, ThreadStats[]>) : AverageThreadStatsPerPeriod[] {
 
-    let averageThreadStats : [string, AverageThreadStats][] = [];
+    let averageThreadStats : AverageThreadStatsPerPeriod[] = [];
 
     threadStats.forEach((value: ThreadStats[], key: string) => {
 
@@ -45,14 +45,12 @@ export function averageThreadStats(threadStats: Map<string, ThreadStats[]>) : [s
             averageNumberOfRepliesPerThread: average(aggregated.numOfReplies),
             medianNumberOfRepliesPerThread: median(aggregated.numOfReplies),
 
-            averageTimeToResolveSeconds: average(aggregated.timeToResolveSeconds),
-            averageTimeToRespondSeconds: average(aggregated.timeToRespondSeconds),
-
-            medianTimeToResolveSeconds: medianTimeToResolveSeconds,
+            averageTimeToResolveMinutes: average(aggregated.timeToResolveSeconds) / 60,
+            averageTimeToRespondMinutes: average(aggregated.timeToRespondSeconds) / 60,
 
             medianTimeToResolveMinutes: medianTimeToResolveSeconds / 60,
 
-            totalTimeSpentHoursUsingMedian: (medianTimeToResolveSeconds * aggregated.numOfResolvedIssues) / 3_600,
+            totalTimeSpentUsingMedianHours: (medianTimeToResolveSeconds * aggregated.numOfResolvedIssues) / 3_600,
 
             keywordsCount: Array.from(aggregated.keywordsCount.entries()).sort((a, b) => {
                 return b[1] - a[1];
@@ -60,40 +58,10 @@ export function averageThreadStats(threadStats: Map<string, ThreadStats[]>) : [s
 
             numOfResolvedIssues: aggregated.numOfResolvedIssues
         }
-        averageThreadStats = averageThreadStats.concat([key, averageStats])
+        averageThreadStats = averageThreadStats.concat({date: key, stats: averageStats})
     });
 
     return  averageThreadStats
 
 }
 
-
-export interface AggregatedThreadStats {
-    numOfReplies: number[],
-
-    timeToResolveSeconds: number[],
-    timeToRespondSeconds: number[],
-
-    keywordsCount: Map<string, number>,
-
-    numOfResolvedIssues: number, // issues with at  least one response
-}
-
-export interface AverageThreadStats {
-    numOfIssues: number,
-
-    averageNumberOfRepliesPerThread: number,
-    medianNumberOfRepliesPerThread: number,
-
-    averageTimeToResolveSeconds: number,
-    averageTimeToRespondSeconds: number,
-    
-    medianTimeToResolveSeconds: number,
-    medianTimeToResolveMinutes: number,
-
-    totalTimeSpentHoursUsingMedian: number,
-
-    keywordsCount: [string, number][],
-
-    numOfResolvedIssues: number,
-}

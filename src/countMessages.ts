@@ -1,4 +1,5 @@
 import { Message, Thread } from "./fetchConversations";
+import { ThreadStats } from "./samples/data/ThreadStats";
 
 
 interface CountMessagesProps {
@@ -73,11 +74,4 @@ enum Mode {
     Daily,
     Monthly,
     Yearly
-}
-
-export interface ThreadStats {
-    numOfReplies: number,
-    keywords: string[],
-    timeToResolveSeconds?: number,
-    timeToRespondSeconds?: number,
 }

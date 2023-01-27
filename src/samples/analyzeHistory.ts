@@ -3,12 +3,19 @@ import { countMessagesPerDay, countMessagesPerMonth, countMessagesPerYear } from
 import { averageThreadStats } from '../averageThreadStats';
 import config from '../config';
 import { readJsonFromFile, writeJsonToFile } from '../utils/fileAccess';
+import { AverageThreadStatsPerPeriod } from './data/ThreadStats';
 
 
-readJsonFromFile(config.filenames.history, (threads: Thread[]) => { 
-    console.log("MONTHLY ANALYSIS")
-    const analysisPerMonth = countMessagesPerMonth({ threads: threads, excludeBots: true, keywords: config.keywords })
-    const averagePerMonth = averageThreadStats(analysisPerMonth)
+let averagePerMonth : AverageThreadStatsPerPeriod[] = []
+const filenames : string[] = [config.filenames.history, "output/history2.json"]
 
-    writeJsonToFile("output/stats.json", averagePerMonth)
-});
+filenames.forEach( function (filename: string) {
+    const threads = readJsonFromFile(filename);
+    const analysisPerMonth = countMessagesPerMonth({ threads: threads, excludeBots: true, keywords: config.keywords });
+    const stats = averageThreadStats(analysisPerMonth)
+
+    averagePerMonth = averagePerMonth.concat(stats)
+    console.log("analyzed file:" + filename)
+})
+
+writeJsonToFile("output/stats.json", averagePerMonth)
