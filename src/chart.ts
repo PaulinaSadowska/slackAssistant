@@ -17,20 +17,26 @@ import { AverageThreadStatsPerPeriod } from './samples/data/ThreadStats';
     }
   })
 
+  createChart(data, 'Resolved issues per month', 'resolvedIssues', 'numOfResolvedIssues')
+  createChart(data, 'Median number of replies per thread', 'medianNumberOfRepliesPerThread', 'medianNumberOfRepliesPerThread')
+  createChart(data, 'Average time to resolve [minutes]', 'averageTimeToResolveMinutes', 'averageTimeToResolveMinutes')
+})();
 
+function createChart(data: AverageThreadStatsPerPeriod[], title: string, elementId: string, field: string){
   new Chart(
-    document.getElementById('resolvedIssues') as any,
+    document.getElementById(elementId) as any,
     {
       type: 'bar',
       data: {
         labels: data.map(row => row.date),
         datasets: [
           {
-            label: 'Resolved issues per month',
-            data: data.map(row => row.stats.numOfResolvedIssues)
+            label: title,
+            data: data.map(row => row.stats[field])
           }
         ]
       }
     }
   );
-})();
+
+}
