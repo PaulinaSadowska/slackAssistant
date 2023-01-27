@@ -11,8 +11,8 @@ import { AverageThreadStatsPerPeriod } from './samples/data/ThreadStats';
     if(yearA != yearB){
       return yearA - yearB;
     }else {
-      const monthA =  Number(a.date.slice(4, 6))
-      const monthB =  Number(b.date.slice(4, 6))
+      const monthA =  Number(a.date.slice(5, 7))
+      const monthB =  Number(b.date.slice(5, 7))
       return monthA - monthB
     }
   })
