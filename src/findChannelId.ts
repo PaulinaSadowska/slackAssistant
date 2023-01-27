@@ -1,16 +1,16 @@
-import token from "./token.js";
+import config from "./config";
 import { WebClient, LogLevel } from "@slack/web-api";
 
 
 // Require the Node Slack SDK package (github.com/slackapi/node-slack-sdk)
-const client = new WebClient(token, {
+const client = new WebClient(config.token, {
   logLevel: LogLevel.DEBUG
 });
 
 export async function findChannelId(name: string) : Promise<string | undefined> {
   try {
     const result = await client.conversations.list({
-      token: token
+      token: config.token
     });
 
     for (const channel of result.channels) {

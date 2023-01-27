@@ -1,10 +1,11 @@
-import token from "./token.js";
+
 import { WebClient, LogLevel } from "@slack/web-api";
+import config from "./config";
 import { verifyRequestRate } from "./requestRate";
 
 
 // Require the Node Slack SDK package (github.com/slackapi/node-slack-sdk)
-const client = new WebClient(token, {
+const client = new WebClient(config.token, {
     logLevel: LogLevel.WARN
 });
 
@@ -124,6 +125,7 @@ async function fetchReplies(
                 }
             }))
         };
+        messages.shift() // remove first element to not duplicate thread message
         return messages;
     }
     catch (error) {
