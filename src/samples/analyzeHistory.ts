@@ -7,7 +7,7 @@ import { AverageThreadStatsPerPeriod } from './data/ThreadStats';
 
 
 let averagePerMonth : AverageThreadStatsPerPeriod[] = []
-const filenames : string[] = [config.filenames.history, "output/history2.json"]
+const filenames : string[] = config.filenames.inputData
 
 filenames.forEach( function (filename: string) {
     const threads = readJsonFromFile(filename);
@@ -18,4 +18,4 @@ filenames.forEach( function (filename: string) {
     console.log("analyzed file:" + filename)
 })
 
-writeJsonToFile("output/stats.json", averagePerMonth)
+writeJsonToFile(config.filenames.stats, averagePerMonth)
