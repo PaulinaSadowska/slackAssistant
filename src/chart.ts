@@ -19,7 +19,7 @@ import { AverageThreadStatsPerPeriod } from './samples/data/ThreadStats';
 
   createChart(data, 'Resolved issues per month', 'resolvedIssues', 'numOfResolvedIssues')
   createChart(data, 'Median number of replies per thread', 'medianNumberOfRepliesPerThread', 'medianNumberOfRepliesPerThread')
-  createChart(data, 'Average time to resolve [minutes]', 'averageTimeToResolveMinutes', 'averageTimeToResolveMinutes')
+  createChart(data, 'Median time to resolve [minutes]', 'medianTimeToResolveMinutes', 'medianTimeToResolveMinutes')
 })();
 
 function createChart(data: AverageThreadStatsPerPeriod[], title: string, elementId: string, field: string){
