@@ -20,6 +20,11 @@ import { AverageThreadStatsPerPeriod } from './samples/data/ThreadStats';
   createChart(data, 'Resolved issues per month', 'resolvedIssues', 'numOfResolvedIssues')
   createChart(data, 'Median number of replies per thread', 'medianNumberOfRepliesPerThread', 'medianNumberOfRepliesPerThread')
   createChart(data, 'Median time to resolve [minutes]', 'medianTimeToResolveMinutes', 'medianTimeToResolveMinutes')
+
+  const length = data.length
+
+  createKeywordsChart(data[length - 1], 'keywords1')
+  createKeywordsChart(data[length - 2], 'keywords2')
 })();
 
 function createChart(data: AverageThreadStatsPerPeriod[], title: string, elementId: string, field: string){
@@ -39,4 +44,23 @@ function createChart(data: AverageThreadStatsPerPeriod[], title: string, element
     }
   );
 
+}
+
+function createKeywordsChart(data: AverageThreadStatsPerPeriod, elementId: string){
+  new Chart(
+    document.getElementById(elementId) as any,
+    {
+      type: 'bar',
+      data: {
+        labels: data.stats.keywordsCount.map(row => row[0]),
+        datasets: [
+          {
+            label: data.date,
+            backgroundColor: "#20A39E80",
+            data: data.stats.keywordsCount.map(row => row[1])
+          }
+        ]
+      }
+    }
+  );
 }
