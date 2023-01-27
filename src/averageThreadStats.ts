@@ -1,5 +1,5 @@
 import { ThreadStats } from "./countMessages";
-import { average, median, sum } from "./utils/stats";
+import { average, median } from "./utils/stats";
 
 export function averageThreadStats(threadStats: Map<string, ThreadStats[]>) : [string, AverageThreadStats][] {
 
@@ -52,10 +52,11 @@ export function averageThreadStats(threadStats: Map<string, ThreadStats[]>) : [s
 
             medianTimeToResolveHours: medianTimeToResolveSeconds / 3_600,
 
-            totalTimeSpentHours: sum(aggregated.timeToResolveSeconds) / 3_600,
             totalTimeSpentHoursUsingMedian: (medianTimeToResolveSeconds * aggregated.numOfResolvedIssues) / 3_600,
 
-            keywordsCount: Array.from(aggregated.keywordsCount.entries()),
+            keywordsCount: Array.from(aggregated.keywordsCount.entries()).sort((a, b) => {
+                return b[1] - a[1];
+            }),
 
             numOfResolvedIssues: aggregated.numOfResolvedIssues
         }
@@ -90,7 +91,6 @@ export interface AverageThreadStats {
     medianTimeToResolveSeconds: number,
     medianTimeToResolveHours: number,
 
-    totalTimeSpentHours: number,
     totalTimeSpentHoursUsingMedian: number,
 
     keywordsCount: [string, number][],
