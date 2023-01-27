@@ -1,4 +1,5 @@
 import { ThreadStats } from "./countMessages";
+import { average, median, sum } from "./utils/stats";
 
 export function averageThreadStats(threadStats: Map<string, ThreadStats[]>) : [string, AverageThreadStats][] {
 
@@ -16,7 +17,7 @@ export function averageThreadStats(threadStats: Map<string, ThreadStats[]>) : [s
             numOfResolvedIssues: 0, // issues with at  least one response
         }
 
-        const sum = value.reduce((acc, current) => {
+        const aggregated = value.reduce((acc, current) => {
             let keywordsCount = acc.keywordsCount
 
             current.keywords.forEach((word) => {
@@ -38,20 +39,25 @@ export function averageThreadStats(threadStats: Map<string, ThreadStats[]>) : [s
         }, initialValue);
 
         const size = value.length
+        const medianTimeToResolveSeconds = median(aggregated.timeToResolveSeconds)
         const averageStats : AverageThreadStats = {
-            numOfIssues: value.length,
-            averageNumberOfRepliesPerThread: average(sum.numOfReplies),
-            medianNumberOfRepliesPerThread: median(sum.numOfReplies),
+            numOfIssues: size,
+            averageNumberOfRepliesPerThread: average(aggregated.numOfReplies),
+            medianNumberOfRepliesPerThread: median(aggregated.numOfReplies),
 
-     
-            averageTimeToResolveSeconds: average(sum.timeToResolveSeconds),
-            averageTimeToRespondSeconds: average(sum.timeToRespondSeconds),
+            averageTimeToResolveSeconds: average(aggregated.timeToResolveSeconds),
+            averageTimeToRespondSeconds: average(aggregated.timeToRespondSeconds),
 
-            medianTimeToResolveSeconds: median(sum.timeToResolveSeconds),
+            medianTimeToResolveSeconds: medianTimeToResolveSeconds,
 
-            keywordsCount: Array.from(sum.keywordsCount.entries()),
+            medianTimeToResolveHours: medianTimeToResolveSeconds / 3_600,
 
-            numOfResolvedIssues: sum.numOfResolvedIssues
+            totalTimeSpentHours: sum(aggregated.timeToResolveSeconds) / 3_600,
+            totalTimeSpentHoursUsingMedian: (medianTimeToResolveSeconds * aggregated.numOfResolvedIssues) / 3_600,
+
+            keywordsCount: Array.from(aggregated.keywordsCount.entries()),
+
+            numOfResolvedIssues: aggregated.numOfResolvedIssues
         }
         averageThreadStats = averageThreadStats.concat([key, averageStats])
     });
@@ -59,23 +65,6 @@ export function averageThreadStats(threadStats: Map<string, ThreadStats[]>) : [s
     return  averageThreadStats
 
 }
-
-const average = (arr: any[]) => arr.reduce( ( p, c ) => p + c, 0 ) / arr.length;
-function median(values: any[]){
-    if(values.length ===0) throw new Error("No inputs");
-  
-    values.sort(function(a,b){
-      return a-b;
-    });
-  
-    var half = Math.floor(values.length / 2);
-    
-    if (values.length % 2)
-      return values[half];
-    
-    return (values[half - 1] + values[half]) / 2.0;
-  }
-
 
 
 export interface AggregatedThreadStats {
@@ -99,6 +88,10 @@ export interface AverageThreadStats {
     averageTimeToRespondSeconds: number,
     
     medianTimeToResolveSeconds: number,
+    medianTimeToResolveHours: number,
+
+    totalTimeSpentHours: number,
+    totalTimeSpentHoursUsingMedian: number,
 
     keywordsCount: [string, number][],
 

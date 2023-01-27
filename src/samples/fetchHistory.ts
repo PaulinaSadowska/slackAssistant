@@ -1,6 +1,6 @@
 import { fetchConversations } from "../fetchConversations";
 import config from "../config";
-import { writeJsonToFile } from "../fileAccess";
+import { writeJsonToFile } from "../utils/fileAccess";
 
 fetchConversations({
     channelId: config.channel.id,

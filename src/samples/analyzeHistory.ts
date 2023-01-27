@@ -2,7 +2,7 @@ import { Thread } from '../fetchConversations';
 import { countMessagesPerDay, countMessagesPerMonth, countMessagesPerYear } from '../countMessages';
 import { averageThreadStats } from '../averageThreadStats';
 import config from '../config';
-import { readJsonFromFile, writeJsonToFile } from '../fileAccess';
+import { readJsonFromFile, writeJsonToFile } from '../utils/fileAccess';
 
 
 readJsonFromFile(config.filenames.history, (threads: Thread[]) => { 
