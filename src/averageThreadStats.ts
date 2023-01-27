@@ -50,7 +50,7 @@ export function averageThreadStats(threadStats: Map<string, ThreadStats[]>) : [s
 
             medianTimeToResolveSeconds: medianTimeToResolveSeconds,
 
-            medianTimeToResolveHours: medianTimeToResolveSeconds / 3_600,
+            medianTimeToResolveMinutes: medianTimeToResolveSeconds / 60,
 
             totalTimeSpentHoursUsingMedian: (medianTimeToResolveSeconds * aggregated.numOfResolvedIssues) / 3_600,
 
@@ -89,7 +89,7 @@ export interface AverageThreadStats {
     averageTimeToRespondSeconds: number,
     
     medianTimeToResolveSeconds: number,
-    medianTimeToResolveHours: number,
+    medianTimeToResolveMinutes: number,
 
     totalTimeSpentHoursUsingMedian: number,
 
