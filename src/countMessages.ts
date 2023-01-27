@@ -31,7 +31,7 @@ function countMessages(threads: Thread[], excludeBots: boolean, keywords = [], m
                 foundKeywords = foundKeywords.concat(word.toLowerCase())
             }
         })
-        return lowercaseKeywords;
+        return foundKeywords;
     }
 
     threads.forEach((thread) => {
