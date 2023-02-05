@@ -1,5 +1,4 @@
-import { Thread } from '../fetchConversations';
-import { countMessagesPerDay, countMessagesPerMonth, countMessagesPerYear } from '../countMessages';
+import { countMessagesPerMonth } from '../countMessages';
 import { averageThreadStats } from '../averageThreadStats';
 import config from '../config';
 import { readJsonFromFile, writeJsonToFile } from '../utils/fileAccess';

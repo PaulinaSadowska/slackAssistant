@@ -1,3 +1,4 @@
+const keyword_extractor = require("keyword-extractor");
 import { Message, Thread } from "./fetchConversations";
 import { ThreadStats } from "./samples/data/ThreadStats";
 
@@ -23,15 +24,16 @@ export function countMessagesPerYear({ threads, excludeBots = false, keywords = 
 function countMessages(threads: Thread[], excludeBots: boolean, keywords = [], mode: Mode): Map<string, ThreadStats[]> {
 
     let threadStatsPerPeriod = new Map<string, ThreadStats[]>();
-    const lowercaseKeywords = keywords.map((word) => word.toLowerCase())
 
     function findKeywords(message: string): string[] {
-        let foundKeywords = []
-        lowercaseKeywords.forEach((word) => {
-            if (message.indexOf(word.toLowerCase()) > 0) {
-                foundKeywords = foundKeywords.concat(word.toLowerCase())
-            }
-        })
+        let foundKeywords = keyword_extractor.extract(message, {
+            language: "polish",
+            remove_digits: true,
+            return_changed_case: true,
+            remove_duplicates: false,
+            return_chained_words: true
+
+        });
         return foundKeywords;
     }
 
