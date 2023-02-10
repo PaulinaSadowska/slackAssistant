@@ -4,8 +4,6 @@ import { AverageThreadStatsPerPeriod } from "./analyzer/model/ThreadStats";
 import config from "./config";
 import { readJsonFromFile, writeJsonToFile } from "./utils/fileAccess";
 
-
-
 let averagePerMonth : AverageThreadStatsPerPeriod[] = []
 const filenames : string[] = config.filenames.inputData
 

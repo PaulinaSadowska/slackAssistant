@@ -20,8 +20,9 @@ export async function fetchConversations({ channelId, withReplies, latest, oldes
     let hasMore: boolean | undefined = true
     let nextCursor: string | undefined = undefined
 
-    console.log("latest " + latest.toString())
-    console.log("oldest " + oldest.toString())
+    console.log("⏳ Fetching messages")
+    console.log("from: " + oldest.toString())
+    console.log("to: " + latest.toString())
 
     try {
         while (hasMore) {
@@ -55,7 +56,7 @@ export async function fetchConversations({ channelId, withReplies, latest, oldes
                         replies: replies
                     };
                 }));
-                console.log("fetched messages with replies: " + threadsWithReplies.length)
+                console.log(`Fetched ${threadsWithReplies.length} messages with replies`)
                 if (hasMore) {
                     await limitRequestRate();
                 }
@@ -71,10 +72,11 @@ export async function fetchConversations({ channelId, withReplies, latest, oldes
             }
         }
 
-        console.log(`ThreadsWithReplies count: ${threads.length}`);
+        console.log(`✅ Fetching messaged finished (${threads.length})`)
         return threads;
     }
     catch (error) {
+        console.log("❌ Something went wrong:")
         console.error(error);
     }
     return []
@@ -114,15 +116,16 @@ async function fetchReplies(
         return messages;
     }
     catch (error) {
+        console.log("❌ Something went wrong:")
         console.error(error);
     }
     return []
 }
 
 async function limitRequestRate(){
-    
     const sleep = (ms: number) => new Promise(r => setTimeout(r, ms));
+    const sleepTimeSeconds = 50
 
-    console.log(`Sleeping for ${config.sleepTimeSeconds} seconds due to rate limit on Slack server side`)
-    await sleep(config.sleepTimeSeconds * 1_000)
+    console.log(`💤 Sleeping for ${sleepTimeSeconds}s due to rate limit on Slack server side`)
+    await sleep(sleepTimeSeconds * 1_000)
 }

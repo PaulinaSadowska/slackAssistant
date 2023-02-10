@@ -3,6 +3,8 @@ import { average, median } from "./utils/math";
 
 export function averageThreadStats(threadStats: Map<string, ThreadStats[]>) : AverageThreadStatsPerPeriod[] {
 
+    console.log(`🧪 Starting analysis`)  
+
     let averageThreadStats : AverageThreadStatsPerPeriod[] = [];
 
     threadStats.forEach((value: ThreadStats[], key: string) => {
@@ -61,6 +63,7 @@ export function averageThreadStats(threadStats: Map<string, ThreadStats[]>) : Av
         averageThreadStats = averageThreadStats.concat({date: key, stats: averageStats})
     });
 
+    console.log(`✅ Analysys finished`) 
     return  averageThreadStats
 
 }

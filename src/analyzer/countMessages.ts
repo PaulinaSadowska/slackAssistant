@@ -1,4 +1,4 @@
-const keyword_extractor = require("keyword-extractor");
+
 import { Message, Thread } from "../fetcher/model/Thread";
 import { ThreadStats } from "./model/ThreadStats";
 
@@ -9,19 +9,13 @@ interface CountMessagesProps {
     keywords?: string[]
 }
 
-export function countMessagesPerDay({ threads, excludeBots = false, keywords = [] }: CountMessagesProps): Map<string, ThreadStats[]> {
-    return countMessages(threads, excludeBots, keywords, Mode.Daily)
-}
-
 export function countMessagesPerMonth({ threads, excludeBots = false, keywords = [] }: CountMessagesProps): Map<string, ThreadStats[]> {
     return countMessages(threads, excludeBots, keywords, Mode.Monthly)
 }
 
-export function countMessagesPerYear({ threads, excludeBots = false, keywords = [] }: CountMessagesProps): Map<string, ThreadStats[]> {
-    return countMessages(threads, excludeBots, keywords, Mode.Yearly)
-}
+export function countMessages(threads: Thread[], excludeBots: boolean, keywords = [], mode: Mode): Map<string, ThreadStats[]> {
 
-function countMessages(threads: Thread[], excludeBots: boolean, keywords = [], mode: Mode): Map<string, ThreadStats[]> {
+    console.log(`🧮 Counting all messages`)  
 
     let threadStatsPerPeriod = new Map<string, ThreadStats[]>();
 

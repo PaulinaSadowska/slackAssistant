@@ -6,8 +6,8 @@ import config from "./config";
 import { fetchConversations } from "./fetcher/fetchConversations";
 import { writeJsonToFile } from "./utils/fileAccess";
 
-const to = new Date(2023, 0, 23)
-const from = new Date(2023, 0, 0)
+const from = new Date("01/01/2023")
+const to = new Date("04/01/2023")
 
 fetchConversations({
     channelId: config.channel.id,
@@ -15,11 +15,8 @@ fetchConversations({
     latest: to,
     oldest: from
 }).then((threads) => {  
-    console.log(`${threads.length} mesaages fetched successfully\nStarting analysis 🧪`)  
     const analysisPerMonth = countMessagesPerMonth({ threads: threads, excludeBots: true, keywords: config.keywords });
     const stats : AverageThreadStatsPerPeriod[] = averageThreadStats(analysisPerMonth)
-
-    console.log(`Analysys finished!`)  
 
     writeJsonToFile(config.filenames.stats, stats)
 })
