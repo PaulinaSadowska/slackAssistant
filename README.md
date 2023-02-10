@@ -25,5 +25,6 @@ run following scripts:
 or
 
 `ts-node fetchHistory.ts`
+
 `ts-node analyzeHistory.ts`
 

@@ -18,6 +18,17 @@ export function countMessages(threads: Thread[], excludeBots: boolean, keywords 
     console.log(`🧮 Counting all messages`)  
 
     let threadStatsPerPeriod = new Map<string, ThreadStats[]>();
+    const lowercaseKeywords = keywords.map((word) => word.toLowerCase())
+
+    function findKeywords(message: string): string[] {
+        let foundKeywords = []
+        lowercaseKeywords.forEach((word) => {
+            if (message.indexOf(word.toLowerCase()) > 0) {
+                foundKeywords = foundKeywords.concat(word.toLowerCase())
+            }
+        })
+        return foundKeywords;
+    }
 
     threads.forEach((thread) => {
         if (!excludeBots || !thread.message.isBot) {
@@ -29,7 +40,7 @@ export function countMessages(threads: Thread[], excludeBots: boolean, keywords 
 
             const newStat: ThreadStats = {
                 numOfReplies: numOfReplies,
-                keywords: [],
+                keywords: findKeywords(thread.message.text),
                 timeToResolveSeconds: timeToResolve,
                 timeToRespondSeconds: timeToRespond
             }
