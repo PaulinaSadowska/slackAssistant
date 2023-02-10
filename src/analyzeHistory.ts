@@ -1,8 +1,9 @@
-import { countMessagesPerMonth } from '../countMessages';
-import { averageThreadStats } from '../averageThreadStats';
-import config from '../config';
-import { readJsonFromFile, writeJsonToFile } from '../utils/fileAccess';
-import { AverageThreadStatsPerPeriod } from './data/ThreadStats';
+import { averageThreadStats } from "./analyzer/averageThreadStats";
+import { countMessagesPerMonth } from "./analyzer/countMessages";
+import { AverageThreadStatsPerPeriod } from "./analyzer/model/ThreadStats";
+import config from "./config";
+import { readJsonFromFile, writeJsonToFile } from "./utils/fileAccess";
+
 
 
 let averagePerMonth : AverageThreadStatsPerPeriod[] = []

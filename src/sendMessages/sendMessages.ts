@@ -1,5 +1,4 @@
-import { findChannelId } from "../findChannelId";
-import { sendMessage } from "../sendMessage";
+import { sendMessage } from "../sendMessages/sendMessage";
 import config from "../config";
 
 ["test", "Apka mi nie działa, pomocy!", "Poprosze CR"].forEach((text) => 

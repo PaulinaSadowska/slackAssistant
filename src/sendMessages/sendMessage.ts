@@ -1,5 +1,5 @@
 import { WebClient, LogLevel } from "@slack/web-api";
-import config from "./config";
+import config from "../config";
 
 // Require the Node Slack SDK package (github.com/slackapi/node-slack-sdk)
 const client = new WebClient(config.token, {

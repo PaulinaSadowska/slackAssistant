@@ -1,7 +1,6 @@
 import Chart from 'chart.js/auto'
-import { threadStats } from './chartInputData';
-import { AverageThreadStatsPerPeriod } from './samples/data/ThreadStats';
-
+import { AverageThreadStatsPerPeriod } from '../analyzer/model/ThreadStats';
+const threadStats = require('./samples/output/stats.json');
 
 (async function() {
 

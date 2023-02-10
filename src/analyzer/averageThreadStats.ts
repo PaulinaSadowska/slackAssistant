@@ -1,5 +1,5 @@
-import { AggregatedThreadStats, AverageThreadStats, AverageThreadStatsPerPeriod, ThreadStats } from "./samples/data/ThreadStats";
-import { average, median } from "./utils/stats";
+import { AggregatedThreadStats, AverageThreadStats, AverageThreadStatsPerPeriod, ThreadStats } from "./model/ThreadStats";
+import { average, median } from "./utils/math";
 
 export function averageThreadStats(threadStats: Map<string, ThreadStats[]>) : AverageThreadStatsPerPeriod[] {
 

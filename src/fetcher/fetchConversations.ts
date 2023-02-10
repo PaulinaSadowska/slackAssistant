@@ -1,26 +1,11 @@
 
 import { WebClient, LogLevel } from "@slack/web-api";
-import config from "./config";
-import { verifyRequestRate } from "./requestRate";
+import config from "../config";
+import { Message, Thread } from "./model/Thread";
 
-
-// Require the Node Slack SDK package (github.com/slackapi/node-slack-sdk)
 const client = new WebClient(config.token, {
     logLevel: LogLevel.WARN
 });
-
-export interface Thread {
-    message: Message,
-    replies: Message[]
-}
-
-export interface Message {
-    type: string,
-    text: string,
-    user: string,
-    isBot: boolean,
-    timestamp: string,
-}
 
 interface FetchHistoryProps {
     channelId: string
@@ -72,7 +57,7 @@ export async function fetchConversations({ channelId, withReplies, latest, oldes
                 }));
                 console.log("fetched messages with replies: " + threadsWithReplies.length)
                 if (hasMore) {
-                    await verifyRequestRate();
+                    await limitRequestRate();
                 }
                 threads = threads.concat(threadsWithReplies)
             } else {
@@ -134,3 +119,10 @@ async function fetchReplies(
     return []
 }
 
+async function limitRequestRate(){
+    
+    const sleep = (ms: number) => new Promise(r => setTimeout(r, ms));
+
+    console.log(`Sleeping for ${config.sleepTimeSeconds} seconds due to rate limit on Slack server side`)
+    await sleep(config.sleepTimeSeconds * 1_000)
+}

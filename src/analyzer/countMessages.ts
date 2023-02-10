@@ -1,6 +1,6 @@
 const keyword_extractor = require("keyword-extractor");
-import { Message, Thread } from "./fetchConversations";
-import { ThreadStats } from "./samples/data/ThreadStats";
+import { Message, Thread } from "../fetcher/model/Thread";
+import { ThreadStats } from "./model/ThreadStats";
 
 
 interface CountMessagesProps {
@@ -25,18 +25,6 @@ function countMessages(threads: Thread[], excludeBots: boolean, keywords = [], m
 
     let threadStatsPerPeriod = new Map<string, ThreadStats[]>();
 
-    function findKeywords(message: string): string[] {
-        let foundKeywords = keyword_extractor.extract(message, {
-            language: "polish",
-            remove_digits: true,
-            return_changed_case: true,
-            remove_duplicates: false,
-            return_chained_words: true
-
-        });
-        return foundKeywords;
-    }
-
     threads.forEach((thread) => {
         if (!excludeBots || !thread.message.isBot) {
             const date = toDateString(thread.message.timestamp, mode)
@@ -47,7 +35,7 @@ function countMessages(threads: Thread[], excludeBots: boolean, keywords = [], m
 
             const newStat: ThreadStats = {
                 numOfReplies: numOfReplies,
-                keywords: findKeywords(thread.message.text),
+                keywords: [],
                 timeToResolveSeconds: timeToResolve,
                 timeToRespondSeconds: timeToRespond
             }
