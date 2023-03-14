@@ -17,8 +17,8 @@ const threadStats = require('../output/stats.json');
   })
 
   createChart(data, 'Resolved issues per month', 'resolvedIssues', 'numOfResolvedIssues')
-  createChart(data, 'Median number of replies per thread', 'medianNumberOfRepliesPerThread', 'medianNumberOfRepliesPerThread')
-  createChart(data, 'Median time to resolve [minutes]', 'medianTimeToResolveMinutes', 'medianTimeToResolveMinutes')
+  createChart(data, 'Average number of replies per thread', 'averageNumberOfRepliesPerThread', 'averageNumberOfRepliesPerThread')
+  createChart(data, 'Total time to resolve [hours]', 'totalTimeSpentHours', 'totalTimeSpentHours')
 
   const length = data.length
 

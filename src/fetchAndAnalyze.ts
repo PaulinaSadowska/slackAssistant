@@ -17,7 +17,7 @@ fetchConversations({
 }).then((threads) => {  
     const analysisPerMonth = countMessagesPerMonth({ threads: threads, excludeBots: true, keywords: config.keywords });
     const stats : AverageThreadStatsPerPeriod[] = averageThreadStats(analysisPerMonth)
-
+    
     writeJsonToFile(config.filenames.stats, stats)
 })
 

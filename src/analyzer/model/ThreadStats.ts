@@ -25,14 +25,9 @@ export interface AverageThreadStats {
     numOfIssues: number,
 
     averageNumberOfRepliesPerThread: number,
-    medianNumberOfRepliesPerThread: number,
-
-    averageTimeToResolveMinutes: number,
     averageTimeToRespondMinutes: number,
-    
-    medianTimeToResolveMinutes: number,
 
-    totalTimeSpentUsingMedianHours: number,
+    totalTimeSpentHours: number,
 
     keywordsCount: [string, number][],
 

@@ -35,7 +35,7 @@ export function countMessages(threads: Thread[], excludeBots: boolean, keywords 
             const date = toDateString(thread.message.timestamp, mode)
             const prevStats = threadStatsPerPeriod.get(date)
             const numOfReplies = thread.replies.length - 1
-            const timeToResolve = (numOfReplies > 0) ? timeDifference(thread.replies.at(-1), thread.replies[0]) : undefined
+            const timeToResolve = (numOfReplies > 0) ? calculateTotalTimeSpentInThreadSeconds(thread.replies) : undefined
             const timeToRespond = (numOfReplies > 0) ? timeDifference(thread.replies[1], thread.replies[0]) : undefined
 
             const newStat: ThreadStats = {
@@ -69,4 +69,31 @@ enum Mode {
     Daily,
     Monthly,
     Yearly
+}
+
+function calculateTotalTimeSpentInThreadSeconds(replies: Message[]){
+    const timestamps : Date[]= replies.map((message: Message) => new Date(toTimestampInSeconds(message.timestamp) * 1_000))
+    const result = calculateTotalTimeSpentMs(timestamps) / 1_000
+    console.log("time spent hours: " + result / 3600)
+    return result
+}
+
+function calculateTotalTimeSpentMs(timestamps: Date[]): number {
+    let totalTimeSpent: number = 0;
+    let previousTimestamp: Date | null = null;
+
+    for (const timestamp of timestamps) {
+        if (previousTimestamp !== null) {
+            const timeDiff = timestamp.getTime() - previousTimestamp.getTime();
+            const hoursDiff = Math.floor(timeDiff / (1000 * 60 * 60));
+
+            if (hoursDiff < 8) {
+                totalTimeSpent += timeDiff;
+            } else {
+                console.log("💤 Conversation was moved to the next day")
+            }
+        }
+        previousTimestamp = timestamp;
+    }
+    return totalTimeSpent;
 }
