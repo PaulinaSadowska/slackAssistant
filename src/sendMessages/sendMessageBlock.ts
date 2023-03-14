@@ -2,7 +2,7 @@ import { findChannelId } from "./findChannelId";
 import { sendMessage } from "../sendMessages/sendMessage";
 import config from "../config";
 
-findChannelId(config.channel.name).then((channelId) =>
+findChannelId("someName").then((channelId) =>
     sendMessage({
         channelId: channelId,
         messageText: "test",
