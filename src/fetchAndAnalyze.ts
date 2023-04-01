@@ -7,7 +7,7 @@ import { fetchConversations } from "./fetcher/fetchConversations.js";
 import sortThreadStats from "./utils/sortData.js";
 import sendToSpreadsheet from "./utils/spreadsheet.js";
 
-const from = new Date("01/01/2023")
+const from = new Date("01/03/2023")
 const to = new Date("04/01/2023")
 
 fetchConversations({
