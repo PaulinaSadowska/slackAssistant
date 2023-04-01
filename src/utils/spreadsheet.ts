@@ -12,6 +12,7 @@ export default function sendToSpreadsheet() {
 
     const credsString = process.env["GOOGLE_CERT"]!;
     const creds = JSON.parse(credsString)
+    console.log(config.google.spreadsheetId)
 
     async function accessSpreadsheet() {
       await doc.useServiceAccountAuth({
