@@ -10,6 +10,7 @@
     "@actions/core": "^1.10.0",
     "@octokit/action": "^3.18.1",
     "@slack/web-api": "6.8.0",
+    "@types/google-spreadsheet": "^3.3.1",
     "@types/node": "^18.15.11",
     "google-spreadsheet": "^3.3.0",
     "typescript": "4.9.4"

@@ -1,8 +1,8 @@
-import { AverageThreadStatsPerPeriod } from './analyzer/model/ThreadStats.js';
+import { AverageThreadStatsPerPeriod } from '../analyzer/model/ThreadStats.js';
 
-function sortData(threadStats: AverageThreadStatsPerPeriod[]) {
+export default function sortThreadStats(threadStats: AverageThreadStatsPerPeriod[]) : AverageThreadStatsPerPeriod[] {
 
-  const data: AverageThreadStatsPerPeriod[] = threadStats.sort((a: AverageThreadStatsPerPeriod, b: AverageThreadStatsPerPeriod) => {
+  return threadStats.sort((a: AverageThreadStatsPerPeriod, b: AverageThreadStatsPerPeriod) => {
     const yearA = Number(a.date.slice(0, 4))
     const yearB = Number(b.date.slice(0, 4))
     if (yearA != yearB) {
@@ -13,6 +13,4 @@ function sortData(threadStats: AverageThreadStatsPerPeriod[]) {
       return monthA - monthB
     }
   })
-
-  return data
 }
