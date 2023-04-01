@@ -11,8 +11,8 @@ import sendToSpreadsheet from "./utils/spreadsheet.js";
 const today: Date = new Date();
 const firstDayOfLastMonth: Date = new Date(today.getFullYear(), today.getMonth() - 1, 1);
 
-const from = process.env.dateFrom ? new Date(process.env.dateFrom) : firstDayOfLastMonth
-const to = process.env.dateTo ? new Date(process.env.dateTo) : today;
+const from = process.env.INPUT_DATEFROM ? new Date(process.env.INPUT_DATEFROM) : firstDayOfLastMonth
+const to = process.env.INPUT_DATETO ? new Date(process.env.INPUT_DATETO) : today;
 
 fetchConversations({
     channelId: config.channel.id!,
