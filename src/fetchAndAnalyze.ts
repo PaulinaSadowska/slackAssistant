@@ -9,9 +9,9 @@ import sendToSpreadsheet from "./utils/spreadsheet.js";
 
 
 const today: Date = new Date();
-const firstDayOfMonth: Date = new Date(today.getFullYear(), today.getMonth(), 1);
+const firstDayOfLastMonth: Date = new Date(today.getFullYear(), today.getMonth() - 1, 1);
 
-const from = process.env.dateFrom ? new Date(process.env.dateFrom) : firstDayOfMonth
+const from = process.env.dateFrom ? new Date(process.env.dateFrom) : firstDayOfLastMonth
 const to = process.env.dateTo ? new Date(process.env.dateTo) : today;
 
 fetchConversations({

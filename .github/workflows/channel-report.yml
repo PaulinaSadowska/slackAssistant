@@ -3,11 +3,11 @@ name: Slack channel Report
 on:
   push:
   schedule:
-    - cron: "0 22 * * *"
+    - cron: "0 3 1 * *"
   workflow_dispatch:
     inputs:
       dateFrom:
-        description: 'The start date for the channel report in DD/MM/YYYY format (default: beginning of the month)'
+        description: 'The start date for the channel report in DD/MM/YYYY format (default: beginning of the LAST month)'
         required: false
       dateTo:
         description: 'The end date for the channel report in DD/MM/YYYY format (default: today)'
