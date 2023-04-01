@@ -10,16 +10,12 @@ export default function sendToSpreadsheet() {
       ['Bob', 'Jones', 'bob.jones@example.com'],
     ];
 
-    console.log("TRY")
+    const creds = require('../google-credentials.json');
 
-    const key = process.env["GOOGLE_PRIVATE_KEY"]!
-
-    console.log(key.slice(0, 5))
-    
     async function accessSpreadsheet() {
       await doc.useServiceAccountAuth({
-        client_email: config.google.email,
-        private_key: key,
+        client_email: creds.client_email,
+        private_key: creds.private_key,
       });
       
       await doc.loadInfo();
