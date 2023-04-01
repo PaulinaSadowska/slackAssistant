@@ -1,14 +1,17 @@
-
 import { GoogleSpreadsheet } from 'google-spreadsheet';
+import { AverageThreadStatsPerPeriod } from '../analyzer/model/ThreadStats.js';
 import config from '../config.js';
 
-export default function sendToSpreadsheet() {
-    const doc = new GoogleSpreadsheet("1WXh5bmwIcM-ZqDkg3dU4sRkAHmM8lj5m3rVnO0H3Y_I");
-    const rows = [
-      ['John', 'Doe', 'john.doe@example.com'],
-      ['Jane', 'Smith', 'jane.smith@example.com'],
-      ['Bob', 'Jones', 'bob.jones@example.com'],
-    ];
+export default function sendToSpreadsheet(threadStats: AverageThreadStatsPerPeriod[]) {
+    const doc = new GoogleSpreadsheet(config.google.spreadsheetId);
+    const rows = threadStats.map( (data: AverageThreadStatsPerPeriod) => {
+        [
+          data.date,
+          data.stats.numOfResolvedIssues,
+          data.stats.averageNumberOfRepliesPerThread,
+          data.stats.totalTimeSpentHours,
+        ]
+    })
 
     const credsString = process.env["GOOGLE_CERT"]!;
     const creds = JSON.parse(credsString)

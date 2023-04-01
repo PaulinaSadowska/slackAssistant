@@ -10,7 +10,7 @@ import sendToSpreadsheet from "./utils/spreadsheet.js";
 const from = new Date("01/01/2023")
 const to = new Date("04/01/2023")
 
-/*fetchConversations({
+fetchConversations({
     channelId: config.channel.id!,
     withReplies: true,
     latest: to,
@@ -20,11 +20,11 @@ const to = new Date("04/01/2023")
     const stats: AverageThreadStatsPerPeriod[] = averageThreadStats(analysisPerMonth)
     const sortedStats = sortThreadStats(stats)
 
-    console.log("stats ready:")
+    console.log("stats ready!")
     sortedStats.forEach((stat) => {
         console.log(stat.date + " => " + stat.stats.numOfIssues)
     })
-})*/
+    sendToSpreadsheet(sortedStats)
+})
 
-sendToSpreadsheet()
 
