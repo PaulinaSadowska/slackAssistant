@@ -40,6 +40,5 @@ jobs:
         run: npm run build
 
       - name: Generate channel report
-        run: |
-          echo "$GOOGLE_CERT" > ./google-credentials.json
+        run:
           node dist/src/fetchAndAnalyze.js
