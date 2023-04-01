@@ -2,7 +2,7 @@ name: Slack channel Report
 
 on:
   push:
-  workflow-dispatch:
+  workflow_dispatch:
     inputs:
       dateFrom:
         description: 'The start date for the channel report in YYYY-MM-DD format.'
