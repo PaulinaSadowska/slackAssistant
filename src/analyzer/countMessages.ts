@@ -1,6 +1,6 @@
 
-import { Message, Thread } from "../fetcher/model/Thread";
-import { ThreadStats } from "./model/ThreadStats";
+import { Message, Thread } from "../fetcher/model/Thread.js";
+import { ThreadStats } from "./model/ThreadStats.js";
 
 
 interface CountMessagesProps {
@@ -13,15 +13,15 @@ export function countMessagesPerMonth({ threads, excludeBots = false, keywords =
     return countMessages(threads, excludeBots, keywords, Mode.Monthly)
 }
 
-export function countMessages(threads: Thread[], excludeBots: boolean, keywords = [], mode: Mode): Map<string, ThreadStats[]> {
+export function countMessages(threads: Thread[], excludeBots: boolean, keywords = [] as string[], mode: Mode): Map<string, ThreadStats[]> {
 
-    console.log(`🧮 Counting all messages`)  
+    console.log(`🧮 Counting all messages`)
 
     let threadStatsPerPeriod = new Map<string, ThreadStats[]>();
     const lowercaseKeywords = keywords.map((word) => word.toLowerCase())
 
     function findKeywords(message: string): string[] {
-        let foundKeywords = []
+        let foundKeywords: string[] = []
         lowercaseKeywords.forEach((word) => {
             if (message.indexOf(word.toLowerCase()) > 0) {
                 foundKeywords = foundKeywords.concat(word.toLowerCase())
@@ -71,8 +71,8 @@ enum Mode {
     Yearly
 }
 
-function calculateTotalTimeSpentInThreadSeconds(replies: Message[]){
-    const timestamps : Date[]= replies.map((message: Message) => new Date(toTimestampInSeconds(message.timestamp) * 1_000))
+function calculateTotalTimeSpentInThreadSeconds(replies: Message[]) {
+    const timestamps: Date[] = replies.map((message: Message) => new Date(toTimestampInSeconds(message.timestamp) * 1_000))
     const result = calculateTotalTimeSpentMs(timestamps) / 1_000
     console.log("time spent hours: " + result / 3600)
     return result

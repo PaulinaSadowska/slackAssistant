@@ -1,0 +1,43 @@
+name: Slack Channel Report
+
+on:
+  push:
+  schedule:
+    - cron: "0 3 1 * *"
+  workflow_dispatch:
+    inputs:
+      dateFrom:
+        description: 'The start date for the channel report in DD/MM/YYYY format (default: beginning of the LAST month)'
+        required: false
+      dateTo:
+        description: 'The end date for the channel report in DD/MM/YYYY format (default: today)'
+        required: false
+
+jobs:
+  channel-report:
+    runs-on: ubuntu-latest
+    env:
+      GOOGLE_SPREADSHEET_ID: ${{ secrets.GOOGLE_SPREADSHEET_ID }}
+      SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
+      CHANNEL_ID: ${{ secrets.CHANNEL_ID }}
+      GOOGLE_CERT: ${{ secrets.GOOGLE_CERT }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18.x'
+          cache: npm
+          cache-dependency-path: 'package-lock.json'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build
+        run: npm run build
+
+      - name: Generate channel report
+        run:
+          node dist/src/fetchAndAnalyze.js

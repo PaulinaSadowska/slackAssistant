@@ -1,23 +1,34 @@
 
-import { averageThreadStats } from "./analyzer/averageThreadStats";
-import { countMessagesPerMonth } from "./analyzer/countMessages";
-import { AverageThreadStatsPerPeriod } from "./analyzer/model/ThreadStats";
-import config from "./config";
-import { fetchConversations } from "./fetcher/fetchConversations";
-import { writeJsonToFile } from "./utils/fileAccess";
+import { averageThreadStats } from "./analyzer/averageThreadStats.js";
+import { countMessagesPerMonth } from "./analyzer/countMessages.js";
+import { AverageThreadStatsPerPeriod } from "./analyzer/model/ThreadStats.js";
+import config from "./config.js";
+import { fetchConversations } from "./fetcher/fetchConversations.js";
+import sortThreadStats from "./utils/sortThreadStats.js";
+import sendToSpreadsheet from "./utils/spreadsheet.js";
 
-const from = new Date("01/01/2023")
-const to = new Date("04/01/2023")
+
+const today: Date = new Date();
+const firstDayOfLastMonth: Date = new Date(today.getFullYear(), today.getMonth() - 1, 1);
+
+const from = process.env.dateFrom ? new Date(process.env.dateFrom) : firstDayOfLastMonth
+const to = process.env.dateTo ? new Date(process.env.dateTo) : today;
 
 fetchConversations({
-    channelId: config.channel.id,
+    channelId: config.channel.id!,
     withReplies: true,
     latest: to,
     oldest: from
-}).then((threads) => {  
+}).then((threads) => {
     const analysisPerMonth = countMessagesPerMonth({ threads: threads, excludeBots: true, keywords: config.keywords });
-    const stats : AverageThreadStatsPerPeriod[] = averageThreadStats(analysisPerMonth)
-    
-    writeJsonToFile(config.filenames.stats, stats)
+    const stats: AverageThreadStatsPerPeriod[] = averageThreadStats(analysisPerMonth)
+    const sortedStats = sortThreadStats(stats)
+
+    console.log("stats ready!")
+    sortedStats.forEach((stat) => {
+        console.log(stat.date + " => " + stat.stats.numOfIssues)
+    })
+    sendToSpreadsheet(sortedStats)
 })
+
 
