@@ -3,7 +3,7 @@ import { GoogleSpreadsheet } from 'google-spreadsheet';
 import config from '../config.js';
 
 export default function sendToSpreadsheet() {
-    const doc = new GoogleSpreadsheet(config.google.spreadsheetId);
+    const doc = new GoogleSpreadsheet("1WXh5bmwIcM-ZqDkg3dU4sRkAHmM8lj5m3rVnO0H3Y_I");
     const rows = [
       ['John', 'Doe', 'john.doe@example.com'],
       ['Jane', 'Smith', 'jane.smith@example.com'],
