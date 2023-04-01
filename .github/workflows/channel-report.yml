@@ -1,7 +1,6 @@
 name: Slack Channel Report
 
 on:
-  push:
   schedule:
     - cron: "0 3 1 * *"
   workflow_dispatch:
@@ -43,4 +42,4 @@ jobs:
 
       - name: Generate channel report
         run:
-          node dist/src/fetchAndAnalyze.js
+          node dist/src/fetchAndAnalyze.js -- --dateFrom ${{ inputs.dateFrom }} --dateTo ${{ inputs.dateTo }}
