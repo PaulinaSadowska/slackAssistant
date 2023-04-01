@@ -7,6 +7,7 @@ export default function sendToSpreadsheet(threadStats: AverageThreadStatsPerPeri
   const rows: any[] = threadStats.map((data: AverageThreadStatsPerPeriod) => {
     return [
       data.date,
+      data.stats.numOfIssues,
       data.stats.numOfResolvedIssues,
       data.stats.averageNumberOfRepliesPerThread,
       data.stats.totalTimeSpentHours
