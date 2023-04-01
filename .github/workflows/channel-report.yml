@@ -20,6 +20,8 @@ jobs:
       SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
       CHANNEL_ID: ${{ secrets.CHANNEL_ID }}
       GOOGLE_CERT: ${{ secrets.GOOGLE_CERT }}
+      DATE_FROM: ${{ inputs.dateFrom }}
+      DATE_TO: ${{ github.event.inputs.dateTo }}
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
@@ -42,4 +44,4 @@ jobs:
 
       - name: Generate channel report
         run:
-          node dist/src/fetchAndAnalyze.js -- --dateFrom ${{ inputs.dateFrom }} --dateTo ${{ inputs.dateTo }}
+          node dist/src/fetchAndAnalyze.js

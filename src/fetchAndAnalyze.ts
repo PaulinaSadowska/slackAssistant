@@ -11,11 +11,10 @@ import sendToSpreadsheet from "./utils/spreadsheet.js";
 const today: Date = new Date();
 const firstDayOfLastMonth: Date = new Date(today.getFullYear(), today.getMonth() - 1, 1);
 
-console.log("!!! DATES !!!")
-console.log("from:" + process.env.INPUT_DATEFROM)
-console.log("to:" + process.env.INPUT_DATETO)
-const from = process.env.INPUT_DATEFROM ? new Date(process.env.INPUT_DATEFROM) : firstDayOfLastMonth
-const to = process.env.INPUT_DATETO ? new Date(process.env.INPUT_DATETO) : today;
+console.log("from:" + process.env.DATE_FROM)
+console.log("to:" + process.env.DATE_TO)
+const from = process.env.DATE_FROM ? new Date(process.env.DATE_FROM) : firstDayOfLastMonth
+const to = process.env.DATE_TO ? new Date(process.env.DATE_TO) : today;
 
 fetchConversations({
     channelId: config.channel.id!,
