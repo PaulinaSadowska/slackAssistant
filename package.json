@@ -1,22 +1,17 @@
 {
-  "dependencies": {
-    "@cubejs-client/core": "^0.31.0",
-    "@slack/web-api": "6.8.0",
-    "chart.js": "^4.0.0",
-    "fs": "0.0.1-security",
-    "typescript": "4.9.4"
-  },
   "name": "slackassistant",
   "version": "1.0.0",
-  "devDependencies": {
-    "parcel": "^2.6.2"
-  },
+  "main": "dist/src/index.js",
+  "type": "module",
   "scripts": {
-    "dev": "parcel src/index.html",
-    "build": "parcel build src/index.html"
+    "build": "tsc -p tsconfig.build.json"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "description": ""
+  "dependencies": {
+    "@actions/core": "^1.10.0",
+    "@octokit/action": "^3.18.1",
+    "@slack/web-api": "6.8.0",
+    "@types/node": "^18.15.11",
+    "google-spreadsheet": "^3.3.0",
+    "typescript": "4.9.4"
+  }
 }

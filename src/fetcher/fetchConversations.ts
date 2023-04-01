@@ -1,6 +1,6 @@
 import { WebClient, LogLevel } from "@slack/web-api";
-import config from "../config";
-import { Message, Thread } from "./model/Thread";
+import config from "../config.js";
+import { Message, Thread } from "./model/Thread.js";
 
 const client = new WebClient(config.token, {
     logLevel: LogLevel.WARN
@@ -31,16 +31,16 @@ export async function fetchConversations({ channelId, withReplies, latest, oldes
                 oldest: oldest ? (oldest.getTime() / 1000).toString() : "0"
             });
 
-            hasMore = result.has_more;
-            nextCursor = result.response_metadata.next_cursor;
+            hasMore = result.has_more as boolean;
+            nextCursor = result!.response_metadata!.next_cursor;
 
-            const messages: Message[] = result.messages.map((message) => {
+            const messages: Message[] = result!.messages!.map((message) => {
                 return {
-                    type: message.type,
-                    text: message.text,
-                    user: message.user,
+                    type: message.type!,
+                    text: message.text!,
+                    user: message.user!,
                     isBot: message.bot_id != undefined,
-                    timestamp: message.ts
+                    timestamp: message.ts!
                 }
             });
 
@@ -91,16 +91,16 @@ async function fetchReplies(channelId: string, ts: string): Promise<Message[]> {
                 cursor: nextCursor,
             });
 
-            hasMore = result.has_more;
-            nextCursor = result.response_metadata.next_cursor;
+            hasMore = result.has_more as boolean;
+            nextCursor = result.response_metadata?.next_cursor;
 
-            messages = messages.concat(result.messages.map((message) => {
+            messages = messages.concat(result!.messages!.map((message) => {
                 return {
-                    type: message.type,
-                    text: message.text,
-                    user: message.user,
+                    type: message.type!,
+                    text: message.text!,
+                    user: message.user!,
                     isBot: message.bot_id != undefined,
-                    timestamp: message.ts
+                    timestamp: message.ts!
                 }
             }));
         };

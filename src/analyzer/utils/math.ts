@@ -1,5 +1,3 @@
-
-
 export const average = (arr: any[]) => (arr.length > 0) ? sum(arr) / arr.length : 0;
 
 export const sum = (arr: any[]) => arr.reduce((p, c) => p + c, 0);

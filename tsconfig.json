@@ -1,8 +1,17 @@
 {
     "compilerOptions": {
-      "outDir": "./built",
-      "allowJs": true,
-      "target": "es5"
+      "target": "es2019",
+      "module": "commonjs",
+      "strict": true,
+      "esModuleInterop": true,
+      "skipLibCheck": true,
+      "outDir": "dist",
+      "lib": ["esnext"]
     },
-    "include": ["./src/**/*"]
+    "references": [
+      {
+        "path": "./tsconfig.build.json"
+      }
+    ],
+    "exclude": ["node_modules"]
   }

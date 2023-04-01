@@ -1,23 +1,26 @@
 
-import { averageThreadStats } from "./analyzer/averageThreadStats";
-import { countMessagesPerMonth } from "./analyzer/countMessages";
-import { AverageThreadStatsPerPeriod } from "./analyzer/model/ThreadStats";
-import config from "./config";
-import { fetchConversations } from "./fetcher/fetchConversations";
-import { writeJsonToFile } from "./utils/fileAccess";
+import { averageThreadStats } from "./analyzer/averageThreadStats.js";
+import { countMessagesPerMonth } from "./analyzer/countMessages.js";
+import { AverageThreadStatsPerPeriod } from "./analyzer/model/ThreadStats.js";
+import config from "./config.js";
+import { fetchConversations } from "./fetcher/fetchConversations.js";
 
 const from = new Date("01/01/2023")
 const to = new Date("04/01/2023")
 
 fetchConversations({
-    channelId: config.channel.id,
+    channelId: config.channel.id!,
     withReplies: true,
     latest: to,
     oldest: from
-}).then((threads) => {  
+}).then((threads) => {
     const analysisPerMonth = countMessagesPerMonth({ threads: threads, excludeBots: true, keywords: config.keywords });
-    const stats : AverageThreadStatsPerPeriod[] = averageThreadStats(analysisPerMonth)
-    
-    writeJsonToFile(config.filenames.stats, stats)
+    const stats: AverageThreadStatsPerPeriod[] = averageThreadStats(analysisPerMonth)
+
+    console.log("stats ready:")
+    stats.forEach((stat) => {
+        console.log(stat.date + " => " + stat.stats.numOfIssues)
+    })
+
 })
 

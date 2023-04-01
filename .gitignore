@@ -6,8 +6,6 @@ yarn-debug.log*
 yarn-error.log*
 lerna-debug.log*
 .pnpm-debug.log*
-token.js
-config.ts
 src/output
 src/.DS_STORE
 .DS_STORE
