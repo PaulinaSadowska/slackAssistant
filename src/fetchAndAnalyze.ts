@@ -11,6 +11,9 @@ import sendToSpreadsheet from "./utils/spreadsheet.js";
 const today: Date = new Date();
 const firstDayOfLastMonth: Date = new Date(today.getFullYear(), today.getMonth() - 1, 1);
 
+console.log("!!! DATES !!!")
+console.log("from:" + process.env.INPUT_DATEFROM)
+console.log("to:" + process.env.INPUT_DATETO)
 const from = process.env.INPUT_DATEFROM ? new Date(process.env.INPUT_DATEFROM) : firstDayOfLastMonth
 const to = process.env.INPUT_DATETO ? new Date(process.env.INPUT_DATETO) : today;
 
