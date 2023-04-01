@@ -9,6 +9,8 @@ export default function sendToSpreadsheet() {
       ['Jane', 'Smith', 'jane.smith@example.com'],
       ['Bob', 'Jones', 'bob.jones@example.com'],
     ];
+
+    console.log(config.google.privateKey.slice(0, 5))
     
     async function accessSpreadsheet() {
       await doc.useServiceAccountAuth({
