@@ -10,12 +10,16 @@ export default function sendToSpreadsheet() {
       ['Bob', 'Jones', 'bob.jones@example.com'],
     ];
 
-    console.log(config.google.privateKey.slice(0, 5))
+    console.log("TRY")
+
+    const key = process.env["GOOGLE_PRIVATE_KEY"]!
+
+    console.log(key.slice(0, 5))
     
     async function accessSpreadsheet() {
       await doc.useServiceAccountAuth({
         client_email: config.google.email,
-        private_key: config.google.privateKey,
+        private_key: key,
       });
       
       await doc.loadInfo();
