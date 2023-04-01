@@ -5,9 +5,8 @@ const config = {
     },
     keywords: ["Android", "iOS", "backend", "Kotlin", "VTE", "PR", "wydanie"],
     google: {
-        privateKey: process.env["GOOGLE_PRIVATE_KEY"]!,
         spreadsheetId: process.env["GOOGLE_SPREADSHEET_ID"]!,
-        email: process.env["GOOGLE_SERVICE_ACCOUNT_EMAIL"]!,
+        credentials: JSON.parse(process.env["GOOGLE_CERT"]!)
     }
 }
 

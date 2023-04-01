@@ -15,11 +15,10 @@ jobs:
   channel-report:
     runs-on: ubuntu-latest
     env:
-      GOOGLE_PRIVATE_KEY: ${{ secrets.GOOGLE_PRIVATE_KEY }}
-      GOOGLE_SERVICE_ACCOUNT_EMAIL: ${{ secrets.GOOGLE_SERVICE_ACCOUNT_EMAIL }}
       GOOGLE_SPREADSHEET_ID: ${{ secrets.GOOGLE_SPREADSHEET_ID }}
       SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
       CHANNEL_ID: ${{ secrets.CHANNEL_ID }}
+      GOOGLE_CERT: ${{ secrets.GOOGLE_CERT }}
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3

@@ -13,10 +13,12 @@ export default function sendToSpreadsheet(threadStats: AverageThreadStatsPerPeri
     ]
   })
 
+  const credentials = config.google.credentials
+
   async function accessSpreadsheet() {
     await doc.useServiceAccountAuth({
-      client_email: config.google.email,
-      private_key: config.google.privateKey,
+      client_email: credentials.client_email,
+      private_key: credentials.private_key,
     });
 
     await doc.loadInfo();
