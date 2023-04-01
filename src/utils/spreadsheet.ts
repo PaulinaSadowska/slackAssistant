@@ -4,7 +4,6 @@ import config from '../config.js';
 
 export default function sendToSpreadsheet() {
     const doc = new GoogleSpreadsheet(config.google.spreadsheetId);
-    
     const rows = [
       ['John', 'Doe', 'john.doe@example.com'],
       ['Jane', 'Smith', 'jane.smith@example.com'],
