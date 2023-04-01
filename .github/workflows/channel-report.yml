@@ -2,14 +2,14 @@ name: Slack channel Report
 
 on:
   push:
-
-inputs:
-  dateFrom:
-    description: 'The start date for the channel report in YYYY-MM-DD format.'
-    required: true
-  dateTo:
-    description: 'The end date for the channel report in YYYY-MM-DD format.'
-    required: true
+  workflow-dispatch:
+    inputs:
+      dateFrom:
+        description: 'The start date for the channel report in YYYY-MM-DD format.'
+        required: false
+      dateTo:
+        description: 'The end date for the channel report in YYYY-MM-DD format.'
+        required: false
 
 jobs:
   channel-report:
