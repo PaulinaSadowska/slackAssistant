@@ -10,7 +10,7 @@ export default function sendToSpreadsheet() {
       ['Bob', 'Jones', 'bob.jones@example.com'],
     ];
 
-    const creds = require('../google-credentials.json');
+    const creds = require('../../google-credentials.json');
 
     async function accessSpreadsheet() {
       await doc.useServiceAccountAuth({
