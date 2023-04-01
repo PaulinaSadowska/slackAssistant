@@ -5,10 +5,10 @@ on:
   workflow_dispatch:
     inputs:
       dateFrom:
-        description: 'The start date for the channel report in DD/MM/YYYY format (default: beginning od the month)'
+        description: 'The start date for the channel report in DD/MM/YYYY format.'
         required: false
       dateTo:
-        description: 'The end date for the channel report in DD/MM/YYYY format (default: today)'
+        description: 'The end date for the channel report in DD/MM/YYYY format.'
         required: false
 
 jobs:
