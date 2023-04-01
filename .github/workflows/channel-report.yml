@@ -2,6 +2,8 @@ name: Slack channel Report
 
 on:
   push:
+  schedule:
+    - cron: "0 22 L * *"
   workflow_dispatch:
     inputs:
       dateFrom:
