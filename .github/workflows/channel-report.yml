@@ -37,7 +37,10 @@ jobs:
 
       - name: Build
         run: npm run build
+      
+      - name: Print input data
+        run: echo "The input is dateFrom= {{ inputs.dateFrom }} ; dateTo=${{ inputs.dateTo }}"
 
       - name: Generate channel report
         run:
-          node dist/src/fetchAndAnalyze.js --dateTo ${{ inputs.dateTo }} --dateFrom ${{ inputs.dateFrom }}
+          node dist/src/fetchAndAnalyze.js
