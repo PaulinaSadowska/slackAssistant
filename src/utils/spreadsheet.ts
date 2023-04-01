@@ -3,34 +3,33 @@ import { AverageThreadStatsPerPeriod } from '../analyzer/model/ThreadStats.js';
 import config from '../config.js';
 
 export default function sendToSpreadsheet(threadStats: AverageThreadStatsPerPeriod[]) {
-    const doc = new GoogleSpreadsheet(config.google.spreadsheetId);
-    const rows = threadStats.map( (data: AverageThreadStatsPerPeriod) => {
-        [
-          data.date,
-          data.stats.numOfResolvedIssues,
-          data.stats.averageNumberOfRepliesPerThread,
-          data.stats.totalTimeSpentHours,
-        ]
-    })
+  const doc = new GoogleSpreadsheet(config.google.spreadsheetId);
+  const rows: any[] = threadStats.map((data: AverageThreadStatsPerPeriod) => {
+    return [
+      data.date,
+      data.stats.numOfResolvedIssues,
+      data.stats.averageNumberOfRepliesPerThread,
+      data.stats.totalTimeSpentHours
+    ]
+  })
 
-    const credsString = process.env["GOOGLE_CERT"]!;
-    const creds = JSON.parse(credsString)
-    console.log(config.google.spreadsheetId)
+  const credentials = JSON.parse(process.env["GOOGLE_CERT"]!)
+  console.log(config.google.spreadsheetId)
 
-    async function accessSpreadsheet() {
-      await doc.useServiceAccountAuth({
-        client_email: creds.client_email,
-        private_key: creds.private_key,
-      });
-      
-      await doc.loadInfo();
-    }
-    
-    async function writeToSpreadsheet() {
-      const sheet = doc.sheetsByIndex[0];
-      
-      await sheet.addRows(rows);
-    }
-    
-    accessSpreadsheet().then(writeToSpreadsheet);
+  async function accessSpreadsheet() {
+    await doc.useServiceAccountAuth({
+      client_email: credentials.client_email,
+      private_key: credentials.private_key,
+    });
+
+    await doc.loadInfo();
+  }
+
+  async function writeToSpreadsheet() {
+    const sheet = doc.sheetsByIndex[0];
+
+    await sheet.addRows(rows);
+  }
+
+  accessSpreadsheet().then(writeToSpreadsheet);
 }
