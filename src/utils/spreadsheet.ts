@@ -12,7 +12,7 @@ export default function sendToSpreadsheet() {
 
   //const creds = require('.././google-credentials.json');
 
-  const modulePath = '../google-credentials.json';
+  const modulePath = '../../../../google-credentials.json';
 
   import(modulePath)
     .then((creds) => {

@@ -21,6 +21,7 @@ jobs:
       SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
       CHANNEL_ID: ${{ secrets.CHANNEL_ID }}
       SERVICE_ACCOUNT_KEY: ${{ secrets.GOOGLE_SERVICE_ACCOUNT_KEY }}
+      GOOGLE_CERT: ${{ secrets.GOOGLE_CERT }}
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
@@ -40,5 +41,5 @@ jobs:
 
       - name: Generate channel report
         run: |
-          echo "$SERVICE_ACCOUNT_KEY" > ./google-credentials.json
+          echo "$GOOGLE_CERT" > ./google-credentials.json
           node dist/src/fetchAndAnalyze.js
