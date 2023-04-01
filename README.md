@@ -3,11 +3,12 @@
 This project allows you to analyze your slack channel and export basic stats to the spreadsheet.
 
 It calculates:
-    - number of issues
-    - number of resolved issues (issues with at least one reply)
-    - average number of replies in thread
-    - total time spent in the thread
-    - FTE (TBD)
+
+- number of issues
+- number of resolved issues (issues with at least one reply)
+- average number of replies in thread
+- total time spent in the thread
+- FTE (TBD)
 
 ### Setup:
 1. Fork the repository.
