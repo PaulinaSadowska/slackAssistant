@@ -4,11 +4,15 @@ import { countMessagesPerMonth } from "./analyzer/countMessages.js";
 import { AverageThreadStatsPerPeriod } from "./analyzer/model/ThreadStats.js";
 import config from "./config.js";
 import { fetchConversations } from "./fetcher/fetchConversations.js";
-import sortThreadStats from "./utils/sortData.js";
+import sortThreadStats from "./utils/sortThreadStats.js";
 import sendToSpreadsheet from "./utils/spreadsheet.js";
 
-const from = new Date("01/03/2023")
-const to = new Date("04/01/2023")
+
+const today: Date = new Date();
+const firstDayOfMonth: Date = new Date(today.getFullYear(), today.getMonth(), 1);
+
+const from = process.env.dateFrom ? new Date(process.env.dateFrom) : firstDayOfMonth
+const to = process.env.dateTo ? new Date(process.env.dateTo) : today;
 
 fetchConversations({
     channelId: config.channel.id!,
