@@ -4,7 +4,8 @@
       "types": ["node"],
       "allowJs": true,
       "module": "nodenext",
-      "composite": true
+      "composite": true,
+      "resolveJsonModule": true
     },
     "include": [
       "src/**/*.ts"
