@@ -28,6 +28,7 @@ export interface AverageThreadStats {
     averageTimeToRespondMinutes: number,
 
     totalTimeSpentHours: number,
+    fte: number,
 
     keywordsCount: [string, number][],
 

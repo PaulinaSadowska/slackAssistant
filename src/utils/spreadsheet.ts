@@ -10,7 +10,8 @@ export default function sendToSpreadsheet(threadStats: AverageThreadStatsPerPeri
       data.stats.numOfIssues,
       data.stats.numOfResolvedIssues,
       data.stats.averageNumberOfRepliesPerThread,
-      data.stats.totalTimeSpentHours
+      data.stats.totalTimeSpentHours,
+      data.stats.fte
     ]
   })
 

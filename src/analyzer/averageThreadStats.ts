@@ -1,3 +1,4 @@
+import { calculateFte } from "./fte/fteCalculator.js";
 import { AggregatedThreadStats, AverageThreadStats, AverageThreadStatsPerPeriod, ThreadStats } from "./model/ThreadStats.js";
 import { average, sum } from "./utils/math.js";
 
@@ -41,12 +42,14 @@ export function averageThreadStats(threadStats: Map<string, ThreadStats[]>): Ave
         }, initialValue);
 
         const size = value.length
+        const totalTimeSpentHours = sum(aggregated.timeToResolveSeconds) / (60 * 60)
         const averageStats: AverageThreadStats = {
             numOfIssues: size,
             averageNumberOfRepliesPerThread: average(aggregated.numOfReplies),
             averageTimeToRespondMinutes: average(aggregated.timeToRespondSeconds) / 60,
 
-            totalTimeSpentHours: sum(aggregated.timeToResolveSeconds) / (60 * 60),
+            totalTimeSpentHours: totalTimeSpentHours,
+            fte: calculateFte(key, totalTimeSpentHours),
 
             keywordsCount: Array.from(aggregated.keywordsCount.entries()).sort((a, b) => {
                 return b[1] - a[1];
