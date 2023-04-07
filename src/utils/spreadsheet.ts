@@ -2,7 +2,7 @@ import { GoogleSpreadsheet } from 'google-spreadsheet';
 import { AverageThreadStatsPerPeriod } from '../analyzer/model/ThreadStats.js';
 import config from '../config.js';
 
-export default function sendToSpreadsheet(threadStats: AverageThreadStatsPerPeriod[]) {
+export default function sendToSpreadsheet(threadStats: AverageThreadStatsPerPeriod[], sheetTitle: string) {
   const doc = new GoogleSpreadsheet(config.google.spreadsheetId);
   const rows: any[] = threadStats.map((data: AverageThreadStatsPerPeriod) => {
     return [
@@ -27,7 +27,7 @@ export default function sendToSpreadsheet(threadStats: AverageThreadStatsPerPeri
   }
 
   async function writeToSpreadsheet() {
-    const sheet = doc.sheetsByIndex[0];
+    const sheet = doc.sheetsByTitle[sheetTitle]
 
     await sheet.addRows(rows);
   }

@@ -30,7 +30,7 @@ fetchConversations({
     sortedStats.forEach((stat) => {
         console.log(stat.date + " => " + stat.stats.numOfIssues)
     })
-    sendToSpreadsheet(sortedStats)
+    sendToSpreadsheet(sortedStats, config.google.sheetName)
 })
 
 

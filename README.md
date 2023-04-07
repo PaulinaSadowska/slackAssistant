@@ -36,8 +36,10 @@ It calculates:
 GOOGLE_SPREADSHEET_ID="XXXX"
 SLACK_BOT_TOKEN="XXXX"
 CHANNEL_ID="XXXX"
+SHEET_TITLE="XXXX"
 GOOGLE_CERT={ ... }
 ```
+
 
 2. Run `npm run build`
 

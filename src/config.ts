@@ -9,6 +9,7 @@ const config = {
     keywords: ["Android", "iOS", "backend", "Kotlin", "VTE", "PR", "wydanie"],
     google: {
         spreadsheetId: process.env.GOOGLE_SPREADSHEET_ID!,
+        sheetName: process.env.SHEET_TITLE!,
         credentials: JSON.parse(process.env.GOOGLE_CERT!)
     }
 }
