@@ -14,10 +14,14 @@ It calculates:
 1. Fork the repository.
 
 2. Set up the following data in Github secrets:
-    - `CHANNEL_ID`: ID of the Slack channel you want to analyze.
     - `SLACK_BOT_TOKEN`: Token of the bot that is added to the Slack channel and can read messages.
     - `GOOGLE_CERT`: JSON certificate file with service account email and private key that supports the Spreadsheets API.
-    - `GOOGLE_SPREADSHEET_ID`: ID that can be found in the URL (`spreadsheets/d/{GOOGLE_SPREADSHEET_ID}/edit#gid=0`).
+
+3. Modify `config.ts` file by adding 
+- spreadsheetId (ID that can be found in the URL (`spreadsheets/d/{GOOGLE_SPREADSHEET_ID}/edit#gid=0`))
+- channels map:
+    - key - identifier that you can use to run workflow locally. It's also used as a `sheetTitle`.
+    - value - channelId found on slack.
 
 3. Create spreadsheet with comulns for the following data:
 - date,
