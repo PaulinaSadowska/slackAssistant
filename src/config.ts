@@ -3,13 +3,13 @@ dotenv.config()
 
 const config = {
     token: process.env["SLACK_BOT_TOKEN"],
-    channel: {
-        id: process.env["CHANNEL_ID"]!
-    },
+    channels: new Map<string, string>([
+        ["channel1", "C04L1360RRA"],
+        ["channel2", "C05818QGTGX"]
+    ]),
     keywords: ["Android", "iOS", "backend", "Kotlin", "VTE", "PR", "wydanie"],
     google: {
-        spreadsheetId: process.env.GOOGLE_SPREADSHEET_ID!,
-        sheetName: process.env.SHEET_TITLE!,
+        spreadsheetId: "1WXh5bmwIcM-ZqDkg3dU4sRkAHmM8lj5m3rVnO0H3Y_I",
         credentials: JSON.parse(process.env.GOOGLE_CERT!)
     }
 }
