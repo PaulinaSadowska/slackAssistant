@@ -33,10 +33,7 @@ It calculates:
 
 1. create `.env` file:
 ```
-GOOGLE_SPREADSHEET_ID="XXXX"
 SLACK_BOT_TOKEN="XXXX"
-CHANNEL_ID="XXXX"
-SHEET_TITLE="XXXX"
 GOOGLE_CERT={ ... }
 ```
 
