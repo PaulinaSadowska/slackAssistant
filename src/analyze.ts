@@ -3,6 +3,7 @@ import { averageThreadStats } from "./analyzer/averageThreadStats.js";
 import { countMessagesPerMonth } from "./analyzer/countMessages.js";
 import { AverageThreadStatsPerPeriod } from "./analyzer/model/ThreadStats.js";
 import config from "./config.js";
+import { channelName } from "./fetch.js";
 import { Thread } from "./fetcher/model/Thread.js";
 import { readJsonFromFile } from "./utils/fileAccess.js";
 import sortThreadStats from "./utils/sortThreadStats.js";
@@ -23,6 +24,6 @@ console.log("stats ready!")
 sortedStats.forEach((stat) => {
     console.log(stat.date + " => " + stat.stats.numOfIssues)
 })
-sendToSpreadsheet(sortedStats, config.google.sheetName)
+sendToSpreadsheet(sortedStats, channelName)
 
 
